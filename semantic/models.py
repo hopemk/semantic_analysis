@@ -3,9 +3,9 @@ from .classification import MyClassifier
 # Create your models here.
 class Classification(models.Model):
     text = models.CharField(max_length=50)
-    classification = models.CharField(max_length=50)
+    classification = models.CharField(max_length=50, editable = False)
     date_created = models.DateTimeField(auto_now_add=True)
-    num_rows = models.CharField(max_length=15)
+    num_rows = models.IntegerField(blank=False, null=False)
     deduced_classification = ''
 
 
@@ -14,9 +14,10 @@ class Classification(models.Model):
 
     def save(self, *args, **kwargs):
         cl = MyClassifier()
-        self.deduced_classification = cl._classify(text, num_rows)
+        self.classification = cl._classify(self.text, self.num_rows)
         #super().save(*args, **kwargs)
-        print(self.num_rows)
+        print(self.deduced_classification)
+        super().save(*args, **kwargs)
 
         
 

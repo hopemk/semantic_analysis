@@ -39,24 +39,12 @@ class MyClassifier:
     def __init__(self):
         self.pos_dict = {'J':wordnet.ADJ, 'V':wordnet.VERB, 'N':wordnet.NOUN, 'R':wordnet.ADV}
         self.wordnet_lemmatizer = WordNetLemmatizer()
-        try:
-            _create_unverified_https_context = ssl._create_unverified_context
-        except AttributeError:
-            pass
-        else:
-            ssl._create_default_https_context = _create_unverified_https_context
-        nltk.download('omw-1.4')
-        nltk.download('punkt')
-
-        nltk.download('stopwords')
-
-        nltk.download('wordnet')
-        nltk.download('averaged_perceptron_tagger')
+        
 
     def read_file(self):
         # Creating a pandas dataframe from reviews.txt file
         print("Opening data file.")
-        data = pd.read_csv('women_reviews.csv', sep=',')
+        data = pd.read_csv('/home/nashey/Documents/semantic analysis/semantic/analysis/semantic/women_reviews.csv', sep=',')
         #print(data)
         #data.head()
         print("Done.\nThe table below shows the structure of the data.\n")
@@ -199,19 +187,17 @@ class MyClassifier:
         cl = NaiveBayesClassifier(tuples_train)
         print("\nRunning text predictions with parts of the dataset.")
         predicted_classifications = []
-
+        
         self.make_predictions(tuples_test, cl, predicted_classifications)
+        #print(tuples_test)
+        #print(predicted_classifications)
         print("Done, everything working well. You can run your classifications now.")
         #text = input("\nEnter your review text : ")
         if cl.classify(text) == 1:
-            print("\nCustomer shows positive behavior.")
+            return "Customer shows positive behavior."
         else:
-            print("\nCustomer shows negative behavior")
-        var = input("\nDo you want to classify again?, type y/n : ")
-        if var =='y':
-            _classify()
-        else:
-            exit()
+            return "Customer shows negative behavior"
+        
 
 #sent = MyClassifier()
 #sent._classify("i hate it", 3000)
